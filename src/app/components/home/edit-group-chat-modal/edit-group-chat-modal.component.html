@@ -1,0 +1,119 @@
+<div class="modal" [ngStyle]="{'display':'block'}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Group Chat</h5>
+          <i class="bi bi-x" (click)="onCloseEditGroupChatModal()"></i>
+        </div>
+        <div class="modal-body">
+
+          <h5 class="font-weight-bold mb-3 text-center text-lg-start"> 
+            <div class="image">
+              <input 
+              class="file-upload-input"
+              [hidden]="true" 
+              type="file" 
+              (change)="onChangeProfilePicture(fileInput.files)" 
+              accept="image/png, image/jpeg"
+              #fileInput>
+              <button 
+                type="button" 
+                (click)="fileInput.click()" 
+                class="btn file-upload-btn"
+                [disabled]="!isUserAdmin">
+                <img [src]="this.getChatDto?.chatPicture"
+                  onerror="src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'"
+                  alt="avatar" 
+                  class="rounded-circle img-fluid">
+              </button>
+              <button 
+                type="button" 
+                class="btn btn-primary file-upload-btn btn-size"
+                *ngIf="isUserAdmin"
+                (click)="onSaveProfilePicture()">
+                Save Profile Picture
+              </button> 
+            </div>
+          </h5>
+
+          <div class="content">
+            <form [formGroup]="editGroupChatDetails">
+                <div class="form-outline mb-4">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="Chat Name"
+                        formControlName="chatName"
+                        [readOnly]="!isUserAdmin"
+                        [ngClass]="{'is-invalid': chatName.errors && (chatName.touched || chatName.dirty), 'is-valid': chatName.valid}"/>
+                    <div class="invalid-feedback" >
+                        <strong *ngIf="chatName.errors?.['required']">Chat Name is required</strong>
+                        <strong *ngIf="chatName?.errors?.['minlength']">
+                            Chat Name length must be greater than {{chatName.errors?.['minlength']?.['requiredLength']}} characters
+                        </strong>
+                    </div>
+                </div>
+
+                <strong>Group Chat Admins</strong>
+                <div class="card DivToScroll DivWithScroll" >
+                  <div class="card-body">
+                     <ul class="list-unstyled mb-0" *ngFor="let admin of getChatDto?.chatAdmins">
+                       <app-friend [getUserDto]="admin" [isFriendAddedToGroupChat]="true"></app-friend>
+                     </ul>
+                  </div>
+                </div>
+
+                <strong>Group Chat Members</strong>
+                <div class="card DivToScroll DivWithScroll" >
+                  <div class="card-body">
+                     <ul class="list-unstyled mb-0" *ngFor="let member of getChatDto?.users">
+                       <app-friend [getUserDto]="member" [isUserAdmin]="isUserAdmin" (deleteFriendFromGroupChat)="onDeleteUserFromGroupChat($event)" (changeMemberToAdmin)="onChangeMemberToAdmin($event)" [isFriendGroupMember]="true" (deleteFriendFromGroupChat)="onDeleteFriendFromGroupChat($event)" [isFriendAddedToGroupChat]="true"></app-friend>
+                     </ul>
+                  </div>
+                </div>
+
+                <div *ngIf="isUserAdmin">
+                  <strong>Group Chat Members to be Removed</strong>
+                  <div class="card DivToScroll DivWithScroll" >
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-0" *ngFor="let member of usersToBeRemoved">
+                        <app-friend [getUserDto]="member" [isUserAdmin]="isUserAdmin" (deleteFriendFromGroupChat)="onDeleteFriendFromListToBeRemoved($event)" [isFriendAddedToGroupChat]="true"></app-friend>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="isUserAdmin">
+                  <strong>Friends to be Added</strong>
+                  <div class="card DivToScroll DivWithScroll" >
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-0" *ngFor="let friend of usersToBeAdded">
+                        <app-friend [getUserDto]="friend" [isUserAdmin]="isUserAdmin" (deleteFriendFromGroupChat)="onDeleteFriendFromListToBeAdded($event)" [isFriendAddedToGroupChat]="true"></app-friend>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="isUserAdmin">
+                  <strong>Friend List</strong>
+                  <div class="card DivToScroll DivWithScroll">
+                    <div class="card-body">
+                      <ul class="list-unstyled mb-0" *ngFor="let friend of friendList.friends">
+                          <app-friend [getUserDto]="friend" [isUserAdmin]="isUserAdmin" (addFriendToGroupChat)="onAddFriendToListToBeAdded($event)" [isFriendAddedToGroupChat]="false"></app-friend>
+                      </ul>
+                      </div>
+                  </div>
+                </div>
+              
+              
+              <div class="row mb-4 button" *ngIf="isUserAdmin">
+                <div class="d-flex justify-content-center">
+                  <button class="btn btn-primary" [disabled]="editGroupChatDetails.invalid && isFormValid() && isUserAdmin" (click)="onEditGroupChat(editGroupChatDetails.value)">Edit Group</button>
+                </div>
+              </div>
+    
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

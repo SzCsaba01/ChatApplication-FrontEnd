@@ -1,0 +1,36 @@
+img{
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.modal {
+    background: rgba(0, 0, 0, .5);
+}
+
+.bi{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.DivToScroll{   
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #3B3C3E;
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 10px 7px 5px;
+  }
+  
+.DivWithScroll{
+    max-height: 535px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.button{
+    padding-top: 20px;
+}

@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col">
+        <img [src]="getFriendRequestDto.senderProfilePicture"
+        onerror="src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'" 
+        alt="avatar"
+        class="rounded-circle d-flex align-self-center me-3 shadow-1-strong">
+    </div>
+    <div class="col">
+        {{getFriendRequestDto.senderName}}
+    </div>
+    <div class="col">
+        {{ getFriendRequestDto.createdAt | date : 'dd/MM/yyyy' }}
+    </div>
+    <div class="col" *ngIf="getFriendRequestDto.friendRequestFlag==friendRequestFlag.Sent">
+        <i class="bi bi-check-lg" (click)="onClickAcceptFriendRequest()"></i>
+        <i class="bi bi-x" (click)="onClickDeclineFriendRequest()"></i>
+    </div>
+</div>

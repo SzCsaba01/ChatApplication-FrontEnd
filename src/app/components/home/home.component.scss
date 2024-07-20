@@ -1,0 +1,108 @@
+.form-control{
+    max-width: 300px;
+}
+
+.forms{
+    padding-top: 200px;
+    padding-right: 30px;
+}
+
+img{
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.bi-bell-fill{
+    padding-left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.bi-people-fill{
+    padding-left: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.bi-box-arrow-in-right{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.bi-three-dots-vertical{
+    font-size: 1.5rem;
+    padding-left: 25px;
+    cursor: pointer;
+}
+
+.toolbar{
+    padding-bottom: 15px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 270px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+  
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+  
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.DivToScroll{   
+  background-color: #F5F5F5;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px 0 4px 0;
+  color: #3B3C3E;
+  font-size: 12px;
+  font-weight: bold;
+  left: -1px;
+  padding: 10px 7px 5px;
+}
+
+.DivWithScroll{
+  min-height: 535px;
+  max-height: 535px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+textarea {
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 750px;
+  height: 10vh;
+  resize: none;
+}
+
+.padding-form{
+  padding-top:30px;
+  padding-left: 10px;
+}
+
+.sendButton{
+  padding-top: 15px;
+  padding-left: 10px;
+}

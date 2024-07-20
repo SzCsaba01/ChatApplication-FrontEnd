@@ -1,0 +1,128 @@
+<div>
+  <div class="container py-5">
+
+    <div class="row">
+
+      <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+
+        <div class="btn-toolbar justify-content-between toolbar">
+          <div class="btn-group">  
+            <img 
+              [src]="profilePicture"
+              onerror="src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'"
+              alt="avatar" 
+              class="rounded-circle img-fluid"
+              (click)="onChangeShowProfileDetailsModal()">
+            <input type="text" id ="SearchProductName" class="form-control rounded" placeholder="Search" [(ngModel)]="searchedUsername" (ngModelChange)="onSearchUserByName()">
+            <button type="button" class="btn btn-primary" (click)="onSearchUserByName()"><i class="bi bi-search"></i></button>
+            <div class="input-group">
+              <i class="bi bi-box-arrow-in-right" (click)="onChangeShowLogOutModal()"></i>
+            </div>
+            <div class="dropdown ">
+              <i class="bi bi-bell-fill"></i>
+              <div class="dropdown-content DivToScroll DivWithScroll">
+                <div class="container" *ngFor="let friendRequest of getFriendRequestsDto.friendRequests">
+                  <app-friend-request [getFriendRequestDto]="friendRequest" [id]="userId" (acceptOrDeclineFriendRequest)="onDeclineOrAcceptFriendRequest($event)"></app-friend-request>
+                </div>
+              </div>
+            </div>
+            <i class="bi bi-people-fill" (click)="onChangeShowCreateGroupChatModal()"></i>
+          </div>
+        </div>
+
+        <div class="card DivToScroll DivWithScroll" >
+          <div class="card-body">
+
+            <div *ngIf="rowData.length == 0">
+              <ul class="list-unstyled mb-0" *ngFor="let chat of getChatsDto.chats">
+                <app-chat [getChatDto]="chat" [userId]="userId" 
+                 (onSelectChatEvent)="onSelectChat($event)" 
+                 (onGetMessagesEvent)="onGetMessagesFromSelectedChat($event)"></app-chat>
+              </ul>
+            </div>
+            <div *ngIf="rowData.length > 0">
+              <ul class="list-unstyled mb-0" *ngFor="let searchedUser of rowData">
+                <app-searched-users [getSearchedUserDto]="searchedUser" [id]="userId"></app-searched-users>
+              </ul>
+              <div class="d-flex justify-content-end">
+                <span class="label">
+                    {{currentNumberOfSearchedUsersStartRow}} to {{currentNumberOfSearchedUsersEndRow}} of {{totalNumberOfSearchedUsers}}
+                    <button class="btn btn-light" (click)="firstPage()" [disabled]="currentPageSearchedUsers == 1">
+                        <i class="bi bi-chevron-bar-left"></i>
+                    </button>
+                    <button class="btn btn-light" (click)="previousPage()" [disabled]="currentPageSearchedUsers == 1">
+                        <i class="bi bi-chevron-compact-left"></i>
+                    </button>
+                    Page {{currentPageSearchedUsers}} of {{totalNumberOfPagesSearchedUsers}}
+                    <button class="btn btn-light" (click)="nextPage()" [disabled]="currentPageSearchedUsers == totalNumberOfPagesSearchedUsers">
+                        <i class="bi bi-chevron-compact-right"></i>
+                    </button>
+                    <button class="btn btn-light" (click)="lastPage()" [disabled]="currentPageSearchedUsers == totalNumberOfPagesSearchedUsers">
+                        <i class="bi bi-chevron-bar-right"></i>
+                    </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6 col-lg-7 col-xl-8">
+        <div *ngIf="isEditButtonShown" class="row justify-content-end" (click)="onChangeShowEditGroupChatModal()">
+          <div class="col-1">
+            <i class="bi bi-three-dots-vertical"></i>
+          </div>
+        </div>
+
+        <ul class="list-unstyled">
+          <div *ngIf="selectedChat != null" class="DivToScroll DivWithScroll">
+            <li *ngFor="let message of getMessagesDto.messages">
+              <app-message [message]="message"></app-message>
+            </li>
+          </div>
+          <div class="input-group mb-3 padding-form">
+            <div class="form-outline">
+              <form [formGroup]="sendMessageFormGroup">
+              <textarea rows="4" type="text" formControlName="text" (keydown.enter)="onSendMessage(sendMessageFormGroup.value)"></textarea>
+              </form>
+            </div>
+            <div class="input-group-append sendButton">
+              <button type="button" class="btn btn-info btn-rounded float-end" (click)="onSendMessage(sendMessageFormGroup.value)">Send</button>
+            </div>
+          </div>
+        </ul>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<app-profile-details 
+  *ngIf="isShownEditProfileModal" 
+  [id]="userId" 
+  [profilePicture]="profilePicture" 
+  (isProfileDetailsModalShownEvent)="onChangeShowProfileDetailsModal()">
+</app-profile-details>
+<app-log-out
+  *ngIf="isShownLogoutModal"
+  (isLogOutModalShownEvent)="changeShowLogoutModal()"
+  (isLogOutEvent)="onLogout()">
+</app-log-out>
+
+<app-create-group-chat 
+  *ngIf="isCreateGroupChatModalShown"
+  [userId]="userId"   
+  (isCreateGroupChatModalShownEvent)="onChangeShowCreateGroupChatModal()">
+</app-create-group-chat>
+
+<app-edit-group-chat-modal 
+  *ngIf="isEditGroupChatModalShown"
+  [userId]="userId"
+  [getChatDto]="selectedChat"
+  (onCloseEditGroupChatModalEvent)="onChangeShowEditGroupChatModal()"
+  (onEditGroupChatEvent)="onEditGroupChat($event)">
+</app-edit-group-chat-modal>
+
+<app-manage-users *ngIf="expectedRole==userRole" class="ManageUsers"></app-manage-users>

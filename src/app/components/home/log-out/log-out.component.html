@@ -1,0 +1,15 @@
+<div class="modal" [ngStyle]="{'display':'block'}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Are you sure you want to log out?</h5>
+          <i class="bi bi-x" (click)="onCloseLogOutModal()"></i>
+        </div>
+        <div class="modal-body">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <button class="btn btn-danger" (click)="onLogOut()">Log Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
