@@ -1,4 +1,4 @@
-# Chat Application - BackEnd
+# Chat Application - FrontEnd
 
 This repository contains the FrontEnd code for the Chat Application, designed to facilitate real-time messaging and group chat functionalities. The application leverages .NET for the backend and Angular for the frontend.
 
